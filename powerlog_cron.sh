@@ -5,6 +5,18 @@
 
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd ${script_dir}
+
+# implement locking to prevent multiple instances
+lock_file="${script_dir}/powerlog_cron.pid.lock"
+exec 9>"${lock_file}"
+if ! flock -n 9; then
+    echo "Another powerlog_cron.sh instance is running (lock: ${lock_file})." >&2
+    exit 0
+fi
+printf "%d\n" "$$" 1>&9
+trap 'flock -u 9; rm -f -- "${lock_file}"' EXIT
+# end of locking implementation
+
 resource_name=`hostname`
 archive_dir="${script_dir}/${resource_name}"
 
