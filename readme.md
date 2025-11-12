@@ -1,8 +1,8 @@
-Dumping power measurements every 15 seconds using crontab
+Dumping power measurements every 15 seconds using crontab.
 
-Cron job runs every 60 seconds and scripts inside dump at 0, 15, 30, 45 seconds
+Cron job runs every 60 seconds and scripts inside dump on 0, 15, 30, 45 seconds from the start of the script. Cron can run at minimum every 1 minute.
 
-Dumps individual node power logs to /<script_dit>/<nodename>/<year>/<month>/YYYY-MM-DD.log".
+Dumps individual node power logs to `/<script_dir>/<nodename>/<year>/<month>/YYYY-MM-DD.log`.
 
 On new local day the previous day log is compressed with zstd. It results in about 20KB per day.
 
